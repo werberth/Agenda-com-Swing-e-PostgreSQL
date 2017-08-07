@@ -17,8 +17,7 @@ public class Cadastro {
 	private JButton salvar;
 
 	private PreparedStatement statement;
-	private ResultSet resultSet;
-	private Users usuario;	
+	private ResultSet resultSet;	
 
 
 	public Cadastro(){
