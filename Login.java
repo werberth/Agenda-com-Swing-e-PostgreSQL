@@ -30,6 +30,7 @@ public class Login {
 		frame = new JFrame("Login");
 		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setBackground(new Color(0, 174, 176));
 		initComponents();
 		defineEvents();
 
@@ -41,27 +42,41 @@ public class Login {
 
 	private void initComponents(){
 		// Adicionando componentes da Barra de menu
+		// Adicionando componentes da Barra de menu
 		
 		menuBar = new JMenuBar();
+		menuBar.setBackground(new Color(0, 130, 156));
 		opcoes = new JMenu("Opções");
+		opcoes.setForeground(new Color(255, 255, 255));
+		opcoes.setBackground(new Color(0, 130, 156));
 		sobre = new JMenuItem("Sobre");
+		sobre.setForeground(new Color(255, 255, 255));
+		sobre.setBackground(new Color(0, 130, 156));
 		exit = new JMenuItem("Exit");
+		exit.setForeground(new Color(255, 255, 255));
+		exit.setBackground(new Color(0, 130, 156));
 		opcoes.add(sobre);
 		opcoes.add(exit);
 		menuBar.add(opcoes);
-		frame.setJMenuBar(menuBar);
+		frame.setJMenuBar(menuBar);;
 		
 		// Adicionando Campos de texto e respectivos labels
 		//Titulo
 		Font f = new Font("SansSerif", Font.BOLD, 20);
 		titulo = new JLabel("Login");
+		titulo.setForeground(new Color(255, 255, 255));
 		titulo.setFont(f);
 		titulo.setBounds(150, 15, 150, 30);
 		frame.add(titulo);
 
 		// Nome de Usuário
 		userlabel = new JLabel("Nome de Usuário");
+		userlabel.setForeground(new Color(255, 255, 255));
+		userlabel.setFont(new Font("SansSerif", Font.BOLD, 15));
 		username = new JTextField();
+		username.setForeground(new Color(255, 255, 255));
+		username.setBackground(new Color(0, 130, 156));
+		username.setFont(new Font("SansSerif", Font.BOLD, 14));
 		userlabel.setBounds(50,60,150,30);
 		username.setBounds(50,90,300,30);
 		frame.add(username);
@@ -69,24 +84,33 @@ public class Login {
 
 		// Senha 
 		senhalabel = new JLabel("Senha");
+		senhalabel.setForeground(new Color(255, 255, 255));
 		senha = new JPasswordField();
-		senhalabel.setBounds(50,120,150,30);
-		senha.setBounds(50,150,300,30);
+		senha.setBackground(new Color(0, 130, 156));
+		senha.setForeground(new Color(255, 255, 255));
+		senha.setFont(new Font("SansSerif", Font.BOLD, 14));
+		senhalabel.setFont(new Font("SansSerif", Font.BOLD, 15));
+		senhalabel.setBounds(50,130,150,30);
+		senha.setBounds(50,160,300,30);
 		frame.add(senha);
 		frame.add(senhalabel);
 
 		//Butão de Logar
 		f = new Font("SansSerif",1, 15);
 		entrar = new JButton("Entrar");
+		entrar.setBackground(new Color(0, 130, 156));
+		entrar.setForeground(new Color(255, 255, 255));
 		entrar.setFont(f);
-		entrar.setBounds(220,190,100,30);
+		entrar.setBounds(220,210,100,30);
 		frame.add(entrar);
 
 		//Botão de Cadastro
 		f = new Font("SansSerif",1, 15);
 		cadastrar = new JButton("Cadastre-se");
+		cadastrar.setBackground(new Color(0, 130, 156));
+		cadastrar.setForeground(new Color(255, 255, 255));
 		cadastrar.setFont(f);
-		cadastrar.setBounds(65,190,150,30);
+		cadastrar.setBounds(65,210,150,30);
 		frame.add(cadastrar);
 	}
 
