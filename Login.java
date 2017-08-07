@@ -45,7 +45,6 @@ public class Login {
 
 	private void initComponents(){
 		// Adicionando componentes da Barra de menu
-		// Adicionando componentes da Barra de menu
 		
 		menuBar = new JMenuBar();
 		menuBar.setBackground(new Color(0, 130, 156));
@@ -163,6 +162,12 @@ public class Login {
 					}
 					
 				}
+			}
+		});
+
+		cadastrar.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				Cadastro cadastroFrame = new Cadastro();
 			}
 		});
 	}
