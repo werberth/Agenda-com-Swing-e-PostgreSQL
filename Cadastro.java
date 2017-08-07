@@ -29,7 +29,6 @@ public class Cadastro {
 		frame = new JFrame("Cadastro");
 		frame.setLayout(null);
 		frame.getContentPane().setBackground(new Color(0, 174, 176));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		initComponents();
 		defineEvents();
 
