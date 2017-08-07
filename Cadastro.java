@@ -156,7 +156,8 @@ public class Cadastro {
 							statement.close();
 							bd.close();
 							JOptionPane.showMessageDialog(null, "Usuário Cadastrado com sucesso!");
-							limpaCampos();
+							//limpaCampos();
+							frame.dispose();
 						} catch(Exception erro) {
 							JOptionPane.showMessageDialog(null, "Algo de errado aconteceu:\n " + erro.toString());
 						}
