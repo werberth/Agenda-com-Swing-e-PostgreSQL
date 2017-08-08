@@ -10,6 +10,9 @@ public class Agenda {
 	private JMenuItem sobre;
 	private JMenuItem exit;
 
+	private JLabel titulo;
+	private JTextField pesquisar;
+	private JButton pesquisarButton;
 
 	public Agenda(){
 		montaTela();
@@ -26,6 +29,7 @@ public class Agenda {
 		frame.pack();
 		frame.setBounds(200,60,900,650);
 		frame.setVisible(true);
+
 	}
 
 	private void initComponents(){
@@ -46,6 +50,14 @@ public class Agenda {
 		opcoes.add(exit);
 		menuBar.add(opcoes);
 		frame.setJMenuBar(menuBar);;
+
+		//Titulo
+		titulo = new JLabel("Atividades");
+		titulo.setForeground(new Color(255, 255, 255));
+		titulo.setFont(new Font("SansSerif", Font.BOLD, 25));
+		titulo.setBounds(100, 30, 150, 30);
+		frame.add(titulo);
+
 	}
 
 
