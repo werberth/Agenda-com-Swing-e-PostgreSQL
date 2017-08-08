@@ -16,26 +16,36 @@ public class Agenda {
 	}
 
 	private void montaTela(){
-		frame = new JFrame("Alô Mundo");
+		frame = new JFrame("Atividades");
 		frame.setLayout(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setBackground(new Color(0, 174, 176));
 		initComponents();
 		defineEvents();
 
 		frame.pack();
-		frame.setBounds(0,0,400,400);
+		frame.setBounds(200,60,900,650);
 		frame.setVisible(true);
 	}
 
 	private void initComponents(){
+		// Adicionando componentes da Barra de menu
+		
 		menuBar = new JMenuBar();
+		menuBar.setBackground(new Color(0, 130, 156));
 		opcoes = new JMenu("Opções");
+		opcoes.setForeground(new Color(255, 255, 255));
+		opcoes.setBackground(new Color(0, 130, 156));
 		sobre = new JMenuItem("Sobre");
+		sobre.setForeground(new Color(255, 255, 255));
+		sobre.setBackground(new Color(0, 130, 156));
 		exit = new JMenuItem("Exit");
+		exit.setForeground(new Color(255, 255, 255));
+		exit.setBackground(new Color(0, 130, 156));
 		opcoes.add(sobre);
 		opcoes.add(exit);
 		menuBar.add(opcoes);
-		frame.setJMenuBar(menuBar);
+		frame.setJMenuBar(menuBar);;
 	}
 
 
