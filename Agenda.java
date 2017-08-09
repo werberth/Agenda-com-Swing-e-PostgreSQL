@@ -1,7 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.table.*;
 import java.sql.*;
+import java.util.Arrays;
 
 public class Agenda {
 	private JFrame frame;
@@ -37,7 +39,7 @@ public class Agenda {
 		defineEvents();
 
 		frame.pack();
-		frame.setBounds(200,60,900,650);
+		frame.setBounds(200,60,900,660);
 		frame.setVisible(true);
 		bd = new BD();
 	}
@@ -64,8 +66,8 @@ public class Agenda {
 		//Titulo
 		titulo = new JLabel("Atividades");
 		titulo.setForeground(new Color(255, 255, 255));
-		titulo.setFont(new Font("SansSerif", Font.BOLD, 25));
-		titulo.setBounds(100, 30, 150, 30);
+		titulo.setFont(new Font("SansSerif", Font.BOLD, 30));
+		titulo.setBounds(50, 35, 200, 30);
 		frame.add(titulo);
 
 		//Barra de pesquisa
@@ -139,6 +141,18 @@ public class Agenda {
 		ano.setBounds(760,80,100,30);
 		frame.add(ano);
 		frame.add(anolabel);
+
+		DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Atividade", "Data", "Anotação"}, 0){};
+
+		JTable table = new JTable(tableModel);
+		scrollTable = new JScrollPane(table);
+		table.setBackground(new Color(0, 130, 156));
+		table.setForeground(new Color(255, 255, 255));
+		table.setFont(new Font("SansSerif", Font.BOLD, 16));
+		scrollTable.getViewport().setBackground(new Color(0, 130, 156));
+
+		scrollTable.setBounds(50, 160, 820, 420);
+		frame.add(scrollTable);
 
 	}
 
