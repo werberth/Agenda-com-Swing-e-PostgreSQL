@@ -11,8 +11,10 @@ public class AtividadesCadastro {
 	private JMenuItem exit;
 
 	private JButton salvar;
-	private JLabel titulolabel, anotacaolabel, datalabel, atividadelabel;
-	private JTextField  titulo, data;
+	private JLabel titulolabel, anotacaolabel, dialabel, meslabel, anolabel, atividadelabel;
+	private JTextField  titulo;
+	private JComboBox <String> dia, mes, ano;
+
 	private JTextArea anotacao;
 	private JScrollPane anotacaoScroll;
 
@@ -72,18 +74,46 @@ public class AtividadesCadastro {
 		frame.add(titulolabel);
 		frame.add(titulo);
 
-		// Campo de texto Data 
-		datalabel = new JLabel("Data (DD/MM/YYYY)");
-		datalabel.setForeground(new Color(255, 255, 255));
-		data = new JTextField();
-		data.setForeground(new Color(255, 255, 255));
-		data.setBackground(new Color(0, 130, 156));
-		datalabel.setFont(new Font("SansSerif", Font.BOLD, 16));
-		data.setFont(new Font("SansSerif", Font.BOLD, 15));
-		datalabel.setBounds(100,180,200,30);
-		data.setBounds(100,210,550,30);
-		frame.add(datalabel);
-		frame.add(data);
+		String[] dia_string = { "Selecione","01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", 
+								"14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26",
+								"28", "29", "30", "31"};
+		dia = new JComboBox<>(dia_string);
+		dia.setBackground(new Color(0, 130, 156));
+		dia.setForeground(new Color(255, 255, 255));
+		dialabel = new JLabel("Dia: ");
+		dialabel.setForeground(new Color(255, 255, 255));
+		dialabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+		dialabel.setBounds(100, 180, 50, 30);
+		dia.setBounds(150, 180, 100, 30);
+		frame.add(dialabel);
+		frame.add(dia);
+
+		//JComboBox Mes
+		String[] mes_string = { "Selecione", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+		mes = new JComboBox<>(mes_string);
+		mes.setBackground(new Color(0, 130, 156));
+		mes.setForeground(new Color(255, 255, 255));
+		meslabel = new JLabel("Mes: ");
+		meslabel.setForeground(new Color(255, 255, 255));
+		meslabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+		meslabel.setBounds(260, 180, 100, 30);
+		mes.setBounds(310, 180, 100, 30);
+		frame.add(mes);
+		frame.add(meslabel);
+
+		//JComboBox Ano
+		String[] ano_string = { "Selecione", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", 
+								"2026", "2027", "2028", "2029", "2030"};
+		ano = new JComboBox<>(ano_string);
+		ano.setBackground(new Color(0, 130, 156));
+		ano.setForeground(new Color(255, 255, 255));
+		anolabel = new JLabel("Ano: ");
+		anolabel.setForeground(new Color(255, 255, 255));
+		anolabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+		anolabel.setBounds(420,180,100,30);
+		ano.setBounds(470, 180, 100, 30);
+		frame.add(ano);
+		frame.add(anolabel);
 
 		// Campo de texto Anotacao 
 		anotacaolabel = new JLabel("Anotações");
