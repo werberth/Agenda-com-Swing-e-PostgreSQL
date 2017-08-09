@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.sql.*;
 
 public class Agenda {
 	private JFrame frame;
@@ -9,10 +10,19 @@ public class Agenda {
 	private JMenu opcoes;
 	private JMenuItem sobre;
 	private JMenuItem exit;
+	private BD bd;
 
-	private JLabel titulo;
-	private JTextField pesquisar;
 	private JButton pesquisarButton;
+
+	private JLabel titulo, filtrarlabel, dialabel, meslabel, anolabel;
+	private JComboBox <String> dia, mes, ano;
+	private JCheckBox diaCheckbox, mesCheckbox, anoCheckbox;
+
+	private JScrollPane scrollTable;
+	private JTable table;
+
+	private PreparedStatement statement;
+	private ResultSet resultSet;
 
 	public Agenda(){
 		montaTela();
@@ -29,7 +39,7 @@ public class Agenda {
 		frame.pack();
 		frame.setBounds(200,60,900,650);
 		frame.setVisible(true);
-
+		bd = new BD();
 	}
 
 	private void initComponents(){
@@ -57,6 +67,78 @@ public class Agenda {
 		titulo.setFont(new Font("SansSerif", Font.BOLD, 25));
 		titulo.setBounds(100, 30, 150, 30);
 		frame.add(titulo);
+
+		//Barra de pesquisa
+		filtrarlabel = new JLabel("Filtrar por: ");
+		filtrarlabel.setForeground(new Color(255, 255, 255));
+		filtrarlabel.setFont(new Font("SansSerif", Font.BOLD, 20));
+		filtrarlabel.setBounds(400, 35, 150, 30);
+		frame.add(filtrarlabel);
+
+		//Adicionando JCheckbox da barra de filtragem
+		diaCheckbox = new JCheckBox("Dia");
+		diaCheckbox.setForeground(new Color(255, 255, 255));
+		diaCheckbox.setBackground(new Color(0, 174, 176));
+		diaCheckbox.setFont(new Font("SansSerif", Font.BOLD, 15));
+		diaCheckbox.setBounds(555, 35, 60, 30);
+		frame.add(diaCheckbox);
+
+		mesCheckbox = new JCheckBox("Mês");
+		mesCheckbox.setForeground(new Color(255, 255, 255));
+		mesCheckbox.setBackground(new Color(0, 174, 176));
+		mesCheckbox.setFont(new Font("SansSerif", Font.BOLD, 15));
+		mesCheckbox.setBounds(620, 35, 60, 30);
+		frame.add(mesCheckbox);
+
+
+		anoCheckbox = new JCheckBox("Ano");
+		anoCheckbox.setForeground(new Color(255, 255, 255));
+		anoCheckbox.setBackground(new Color(0, 174, 176));
+		anoCheckbox.setFont(new Font("SansSerif", Font.BOLD, 15));
+		anoCheckbox.setBounds(680, 35, 60, 30);
+		frame.add(anoCheckbox);
+
+		// JComboBox Dia
+		String[] dia_string = { "Selecione","01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", 
+								"14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26",
+								"28", "29", "30", "31"};
+		dia = new JComboBox<>(dia_string);
+		dia.setBackground(new Color(0, 130, 156));
+		dia.setForeground(new Color(255, 255, 255));
+		dialabel = new JLabel("Dia: ");
+		dialabel.setForeground(new Color(255, 255, 255));
+		dialabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+		dialabel.setBounds(400,80,80,30);
+		dia.setBounds(445,80,100,30);
+		frame.add(dialabel);
+		frame.add(dia);
+
+		//JComboBox Mes
+		String[] mes_string = { "Selecione", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+		mes = new JComboBox<>(mes_string);
+		mes.setBackground(new Color(0, 130, 156));
+		mes.setForeground(new Color(255, 255, 255));
+		meslabel = new JLabel("Mes: ");
+		meslabel.setForeground(new Color(255, 255, 255));
+		meslabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+		meslabel.setBounds(555,80,80,30);
+		mes.setBounds(605,80,100,30);
+		frame.add(mes);
+		frame.add(meslabel);
+
+		//JComboBox Ano
+		String[] ano_string = { "Selecione", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", 
+								"2026", "2027", "2028", "2029", "2030"};
+		ano = new JComboBox<>(ano_string);
+		ano.setBackground(new Color(0, 130, 156));
+		ano.setForeground(new Color(255, 255, 255));
+		anolabel = new JLabel("Ano: ");
+		anolabel.setForeground(new Color(255, 255, 255));
+		anolabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+		anolabel.setBounds(715,80,80,30);
+		ano.setBounds(760,80,100,30);
+		frame.add(ano);
+		frame.add(anolabel);
 
 	}
 
