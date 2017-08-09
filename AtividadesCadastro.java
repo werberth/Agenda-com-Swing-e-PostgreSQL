@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.*;
 import javax.swing.*;
+import java.util.Arrays;
 
 public class AtividadesCadastro {
 	private JFrame frame;
@@ -9,6 +11,7 @@ public class AtividadesCadastro {
 	private JMenu opcoes;
 	private JMenuItem sobre;
 	private JMenuItem exit;
+	private BD bd;
 
 	private JButton salvar;
 	private JLabel titulolabel, anotacaolabel, dialabel, meslabel, anolabel, atividadelabel;
@@ -17,6 +20,8 @@ public class AtividadesCadastro {
 
 	private JTextArea anotacao;
 	private JScrollPane anotacaoScroll;
+
+	private PreparedStatement statement;	
 
 
 	public AtividadesCadastro(){
@@ -34,6 +39,7 @@ public class AtividadesCadastro {
 		frame.pack();
 		frame.setBounds(280,60,740,650);
 		frame.setVisible(true);
+		bd = new BD();
 	}
 
 	private void initComponents(){
@@ -154,7 +160,69 @@ public class AtividadesCadastro {
 			}
 		});
 
+		salvar.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String day = dia.getSelectedItem().toString();
+				String month = mes.getSelectedItem().toString();
+				String year = ano.getSelectedItem().toString();
+				String date = day + "/" + month + "/" + year;
+
+				if(checkDateIsValid(day, month, year)){
+					try {
+						if(!bd.getConnection()){
+							JOptionPane.showMessageDialog(null, "Falha na conexão, o sistem será fechado!");
+							System.exit(0);
+						}
+
+						String url = "INSERT INTO atividade (titulo, data, anotacao) VALUES (?, TO_DATE(?, 'DD/MM/YYYY'),?);";
+						statement = bd.connection.prepareStatement(url);
+						statement.setString(1, titulo.getText());
+						statement.setString(2, date);
+						statement.setString(3, anotacao.getText());
+						statement.execute();
+						statement.close();
+						bd.close();
+						JOptionPane.showMessageDialog(null, "Atividade registrada na Agenda com sucesso!\n" + 
+															"Atividade: " + titulo.getText() + "\nData: " + date +
+															"\nAnotação: " + anotacao.getText());
+						//frame.dispose();
+					} catch(Exception erro) {
+						JOptionPane.showMessageDialog(null, "Algo de errado aconteceu:\n " + erro.toString());
+						System.out.println(erro.toString());
+					}
+				}
+			}
+		});
+
 	}
+
+	private boolean checkDateIsValid(String day, String month, String year){
+		String[] meses_invalidos = {"04", "06", "09", "11"};
+		String[] february_invalid_days = {"29", "30", "31"};
+		if((day == "31") && (Arrays.asList(meses_invalidos).contains(month))){
+			JOptionPane.showMessageDialog(null, "Não existe dia 31 no mês " + month);
+			return false;
+		} else if((day == "Selecione") || (month == "Selecione") || (year == "Selecione")){
+			JOptionPane.showMessageDialog(null, "Algum campo de data não preenchido!\n Verifique e tente novamente!");
+			return false;
+		} else if(Arrays.asList(february_invalid_days).contains(day) && (month == "04")){
+			System.out.println(Integer.parseInt(year) + " ------ ");
+			if(!checkIsLeapYear(Integer.parseInt(year))){
+				JOptionPane.showMessageDialog(null, "O mês de fevereiro não contém o dia " + day);
+				return false;
+			}
+		}
+		return true;
+ 	}
+
+ 	private boolean checkIsLeapYear(Integer year){
+ 		if((year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0))){
+			return true;
+		}
+		else{
+			return false;
+		}
+ 	}
 
 	public static void main(String[] args){
 		tela = new AtividadesCadastro();
