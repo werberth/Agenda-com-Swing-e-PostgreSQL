@@ -13,8 +13,9 @@ public class Agenda {
 	private JMenuItem sobre;
 	private JMenuItem exit;
 	private BD bd;
+	private Arquivo file;
 
-	private JButton pesquisarButton;
+	private JButton filtrarButton;
 
 	private JLabel titulo, filtrarlabel, dialabel, meslabel, anolabel;
 	private JComboBox <String> dia, mes, ano;
@@ -26,6 +27,7 @@ public class Agenda {
 	private PreparedStatement statement;
 	private ResultSet resultSet;
 
+
 	public Agenda(){
 		montaTela();
 	}
@@ -36,12 +38,14 @@ public class Agenda {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(new Color(0, 174, 176));
 		initComponents();
+		filtrarButton.doClick();
 		defineEvents();
 
 		frame.pack();
 		frame.setBounds(200,60,900,660);
 		frame.setVisible(true);
 		bd = new BD();
+		file = new Arquivo();
 	}
 
 	private void initComponents(){
@@ -100,6 +104,13 @@ public class Agenda {
 		anoCheckbox.setBounds(680, 35, 60, 30);
 		frame.add(anoCheckbox);
 
+		filtrarButton = new JButton("Filtrar");
+		filtrarButton.setForeground(new Color(255, 255, 255));
+		filtrarButton.setBackground(new Color(0, 130, 156));
+		filtrarButton.setFont(new Font("SansSerif", Font.BOLD, 15));
+		filtrarButton.setBounds(750, 35, 100,30);
+		frame.add(filtrarButton);
+
 		// JComboBox Dia
 		String[] dia_string = { "Selecione","01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", 
 								"14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26",
@@ -142,15 +153,7 @@ public class Agenda {
 		frame.add(ano);
 		frame.add(anolabel);
 
-		DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Atividade", "Data", "Anotação"}, 0){};
-
-		JTable table = new JTable(tableModel);
-		scrollTable = new JScrollPane(table);
-		table.setBackground(new Color(0, 130, 156));
-		table.setForeground(new Color(255, 255, 255));
-		table.setFont(new Font("SansSerif", Font.BOLD, 16));
-		scrollTable.getViewport().setBackground(new Color(0, 130, 156));
-
+		scrollTable = new JScrollPane();
 		scrollTable.setBounds(50, 160, 820, 420);
 		frame.add(scrollTable);
 
@@ -169,7 +172,125 @@ public class Agenda {
 				System.exit(0);
 			}
 		});
+		
+		filtrarButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String day = dia.getSelectedItem().toString();
+				String month = mes.getSelectedItem().toString();
+				String year = ano.getSelectedItem().toString();
+
+					try {
+						if(!bd.getConnection()){
+							JOptionPane.showMessageDialog(null, "Falha na conexão, o sistem será fechado!");
+							System.exit(0);
+						}
+
+						String usuario = file.lerArquivo();
+
+						if((diaCheckbox.isSelected() || mesCheckbox.isSelected() || anoCheckbox.isSelected()) && checkDateIsValid(day, month, year)){
+							if(diaCheckbox.isSelected() && !mesCheckbox.isSelected() && !anoCheckbox.isSelected()){
+								String url = "SELECT * FROM atividade WHERE WHERE EXTRACT(DAY from data)=? AND EXTRACT(YEAR from data) > EXTRACT(YEAR, CURRENT_DATE) AND usuario=?";
+								statement = bd.connection.prepareStatement(url);
+							} else if(!diaCheckbox.isSelected() && mesCheckbox.isSelected() && !anoCheckbox.isSelected()){
+								String url = "SELECT * FROM atividade WHERE EXTRACT(MONTH from data)=? AND EXTRACT(YEAR from data) > EXTRACT(YEAR, CURRENT_DATE) AND usuario=?";
+								statement = bd.connection.prepareStatement(url);
+								statement.setString(1, month);
+							} else if(!diaCheckbox.isSelected() && !mesCheckbox.isSelected() && anoCheckbox.isSelected()){
+								String url = "SELECT * FROM atividade WHERE EXTRACT(YEAR from data)=? AND usuario=?";
+								statement = bd.connection.prepareStatement(url);
+								statement.setString(1, year);
+							} else if(diaCheckbox.isSelected() && mesCheckbox.isSelected() && !anoCheckbox.isSelected()){
+								String url = "SELECT * FROM atividade WHERE EXTRACT(DAY from data)=? AND EXTRACT(MONTH from data)=? EXTRACT(YEAR from data) > EXTRACT(YEAR, CURRENT_DATE) AND usuario=?";
+								statement = bd.connection.prepareStatement(url);
+								statement.setString(1, day);
+								statement.setString(2, month);
+							} else if(diaCheckbox.isSelected() && !mesCheckbox.isSelected() && anoCheckbox.isSelected()){
+								String url = "SELECT * FROM atividade WHERE EXTRACT(DAY from data)=? AND EXTRACT(YEAR from data)=? AND usuario=?";
+								statement = bd.connection.prepareStatement(url);
+								statement.setString(1, day);
+								statement.setString(2, year);
+							} else if(!diaCheckbox.isSelected() && mesCheckbox.isSelected() && anoCheckbox.isSelected()){
+								String url = "SELECT * FROM atividade WHERE EXTRACT(MONTH from data)=? AND EXTRACT(YEAR from data)=? AND usuario=?";
+								statement = bd.connection.prepareStatement(url);
+								statement.setString(1, month);
+								statement.setString(2, year);
+							} else {
+								String url = "SELECT * FROM atividade WHERE EXTRACT(DAY from data)=? AND EXTRACT(MONTH from data)=? AND EXTRACT(YEAR from data)=?";
+								statement = bd.connection.prepareStatement(url);
+								statement.setString(1,day);
+								statement.setString(2, month);
+								statement.setString(3, year);
+							}
+						} else {
+							String url = "SELECT * FROM atividade WHERE data >= CURRENT_DATE AND usuario=?";
+							statement = bd.connection.prepareStatement(url);
+							statement.setString(1, usuario);
+						} 
+
+						resultSet = statement.executeQuery();
+
+						DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Atividade", "Data", "Anotação"}, 0){};
+						table = new JTable(tableModel);
+						DefaultTableModel dtm = (DefaultTableModel) table.getModel();
+
+						while(resultSet.next()){
+							try {
+								String[] data = new String[3];
+								for (int i=1; i <= 3; i++){
+									data[i-1] = resultSet.getString(i);
+									System.out.println(resultSet.getString(i));
+								}
+								dtm.addRow(data);
+								System.out.println();
+							} catch (SQLException erro){
+
+							}
+							scrollTable.setViewportView(table);
+						}
+
+
+						statement.close();
+						resultSet.close();
+						bd.close();
+
+
+					} catch(Exception erro) {
+						JOptionPane.showMessageDialog(null, "Algo de errado aconteceu:\n " + erro.toString());
+						System.out.println(erro.toString());
+					}
+		
+			}
+		});
 	}
+
+
+	private boolean checkDateIsValid(String day, String month, String year){
+		String[] meses_invalidos = {"04", "06", "09", "11"};
+		String[] february_invalid_days = {"29", "30", "31"};
+		if((day == "31") && (Arrays.asList(meses_invalidos).contains(month))){
+			JOptionPane.showMessageDialog(null, "Não existe dia 31 no mês " + month);
+			return false;
+		} else if((day == "Selecione") || (month == "Selecione") || (year == "Selecione")){
+			JOptionPane.showMessageDialog(null, "Algum campo de data não preenchido!\n Verifique e tente novamente!");
+			return false;
+		} else if(Arrays.asList(february_invalid_days).contains(day) && (month == "04")){
+			if(!checkIsLeapYear(Integer.parseInt(year))){
+				JOptionPane.showMessageDialog(null, "O mês de fevereiro não contém o dia " + day);
+				return false;
+			}
+		}
+		return true;
+ 	}
+
+ 	private boolean checkIsLeapYear(Integer year){
+ 		if((year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0))){
+			return true;
+		}
+		else{
+			return false;
+		}
+ 	}
+
 
 	public static void main(String[] args){
 		tela = new Agenda();
