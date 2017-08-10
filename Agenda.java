@@ -26,7 +26,7 @@ public class Agenda {
 
 	private PreparedStatement statement;
 	private ResultSet resultSet;
-
+	DefaultTableModel tableModel;
 
 	public Agenda(){
 		montaTela();
@@ -153,6 +153,9 @@ public class Agenda {
 		frame.add(ano);
 		frame.add(anolabel);
 
+		table = newTable();
+
+		
 		scrollTable = new JScrollPane();
 		scrollTable.setBounds(50, 160, 820, 420);
 		scrollTable.getViewport().setBackground(new Color(0, 130, 156));
@@ -239,11 +242,7 @@ public class Agenda {
 						
 						resultSet = statement.executeQuery();
 
-						DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Atividade", "Data", "Anotação"}, 0){};
-						table = new JTable(tableModel);
-						table.setBackground(new Color(0, 130, 156));
-						table.setForeground(new Color(255, 255, 255));
-						table.setFont(new Font("SansSerif", Font.BOLD, 12));
+						table = newTable();
 						DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 
 						if(resultSet.next()){
@@ -278,6 +277,7 @@ public class Agenda {
 					}
 		
 			}
+
 		});
 	}
 
@@ -298,6 +298,36 @@ public class Agenda {
 			}
 		}
 		return true;
+ 	}
+
+ 	private JTable newTable(){
+ 		tableModel = new DefaultTableModel(new String[]{"Atividade", "Data", "Anotação"}, 0){ 
+	      @Override
+	      public boolean isCellEditable(int row, int col) 
+	      { 
+	             return false; 
+	      } 
+		};
+
+		table = new JTable(tableModel);
+		table.setBackground(new Color(0, 130, 156));
+		table.setForeground(new Color(255, 255, 255));
+		table.setFont(new Font("SansSerif", Font.BOLD, 12));
+
+		table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            DefaultTableModel model = (DefaultTableModel) table.getModel();
+            int selectedRowIndex = table.getSelectedRow();
+
+            String title_selected = model.getValueAt(selectedRowIndex, 0).toString();
+            String date_selected = model.getValueAt(selectedRowIndex, 1).toString();
+            String anotacao_selected = model.getValueAt(selectedRowIndex, 2).toString();
+
+            JOptionPane.showMessageDialog(null, "Titulo: " + title_selected + "\nData: " + date_selected + "\nAnotação: " + anotacao_selected); 
+            }
+        });
+
+		return table;
  	}
 
  	private boolean checkIsLeapYear(Integer year){
