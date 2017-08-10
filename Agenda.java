@@ -155,6 +155,7 @@ public class Agenda {
 
 		scrollTable = new JScrollPane();
 		scrollTable.setBounds(50, 160, 820, 420);
+		scrollTable.getViewport().setBackground(new Color(0, 130, 156));
 		frame.add(scrollTable);
 
 	}
@@ -190,39 +191,33 @@ public class Agenda {
 
 						if((diaCheckbox.isSelected() || mesCheckbox.isSelected() || anoCheckbox.isSelected()) && checkDateIsValid(day, month, year)){
 							if(diaCheckbox.isSelected() && !mesCheckbox.isSelected() && !anoCheckbox.isSelected()){
-								System.out.println('1');
 								String url = "SELECT * FROM atividade WHERE EXTRACT(DAY from data)=? AND (EXTRACT(YEAR from data) > EXTRACT(YEAR from CURRENT_DATE)) AND usuario=?";
 								statement = bd.connection.prepareStatement(url);
 								statement.setDouble(1, Double.parseDouble(day));
 								statement.setString(2, usuario);
 							} else if(!diaCheckbox.isSelected() && mesCheckbox.isSelected() && !anoCheckbox.isSelected()){
-								System.out.println('2');
 								String url = "SELECT * FROM atividade WHERE EXTRACT(MONTH from data)=? AND (EXTRACT(YEAR from data) > EXTRACT(YEAR from CURRENT_DATE)) AND usuario=?";
 								statement = bd.connection.prepareStatement(url);
 								statement.setDouble(1,  Double.parseDouble(month));
 								statement.setString(2, usuario);
 							} else if(!diaCheckbox.isSelected() && !mesCheckbox.isSelected() && anoCheckbox.isSelected()){
-								System.out.println('3');
 								String url = "SELECT * FROM atividade WHERE EXTRACT(YEAR from data)=? AND usuario=?";
 								statement = bd.connection.prepareStatement(url);
 								statement.setDouble(1,  Double.parseDouble(year));
 								statement.setString(2, usuario);
 							} else if(diaCheckbox.isSelected() && mesCheckbox.isSelected() && !anoCheckbox.isSelected()){
-								System.out.println('4');
 								String url = "SELECT * FROM atividade WHERE EXTRACT(DAY from data)=? AND EXTRACT(MONTH from data)=? AND (EXTRACT(YEAR from data) > EXTRACT(YEAR from CURRENT_DATE)) AND usuario=?";
 								statement = bd.connection.prepareStatement(url);
 								statement.setDouble(1, Double.parseDouble(day));
 								statement.setDouble(2,  Double.parseDouble(month));
 								statement.setString(3, usuario);
 							} else if(diaCheckbox.isSelected() && !mesCheckbox.isSelected() && anoCheckbox.isSelected()){
-								System.out.println('5');
 								String url = "SELECT * FROM atividade WHERE EXTRACT(DAY from data)=? AND EXTRACT(YEAR from data)=? AND usuario=?";
 								statement = bd.connection.prepareStatement(url);
 								statement.setDouble(1, Double.parseDouble(day));
 								statement.setDouble(2,  Double.parseDouble(year));
 								statement.setString(3, usuario);
 							} else if(!diaCheckbox.isSelected() && mesCheckbox.isSelected() && anoCheckbox.isSelected()){
-								System.out.println('6');
 								String url = "SELECT * FROM atividade WHERE EXTRACT(MONTH from data) = ? AND EXTRACT(YEAR from data) = ? AND usuario=?";
 								statement = bd.connection.prepareStatement(url);
 								statement.setDouble(1, Double.parseDouble(month));
@@ -246,22 +241,30 @@ public class Agenda {
 
 						DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Atividade", "Data", "Anotação"}, 0){};
 						table = new JTable(tableModel);
+						table.setBackground(new Color(0, 130, 156));
+						table.setForeground(new Color(255, 255, 255));
+						table.setFont(new Font("SansSerif", Font.BOLD, 12));
 						DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 
-						while(resultSet.next()){
-							try {
-								String[] data = new String[3];
-								for (int i=1; i <= 3; i++){
-									data[i-1] = resultSet.getString(i);
-									System.out.println(resultSet.getString(i));
-								}
-								dtm.addRow(data);
-								System.out.println();
-							} catch (SQLException erro){
+						if(resultSet.next()){
+							do {
+								try {
+									String[] data = new String[3];
+									for (int i=1; i <= 3; i++){
+										data[i-1] = resultSet.getString(i);
+										System.out.println(resultSet.getString(i));
+									}
+									dtm.addRow(data);
+									System.out.println();
+								} catch (SQLException erro){
 
-							}
-							scrollTable.setViewportView(table);
+								}
+							} while(resultSet.next());
+						} else {
+							table = new JTable(tableModel);
 						}
+
+						scrollTable.setViewportView(table);
 
 
 						statement.close();
