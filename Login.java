@@ -98,12 +98,15 @@ public class Login {
 		frame.add(senhalabel);
 
 		//Butão de Logar
-		f = new Font("SansSerif",1, 15);
 		entrar = new JButton("Entrar");
 		entrar.setBackground(new Color(0, 130, 156));
 		entrar.setForeground(new Color(255, 255, 255));
-		entrar.setFont(f);
-		entrar.setBounds(220,210,100,30);
+		entrar.setFont(new Font("SansSerif",1, 16));
+		entrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/login.png")));
+		entrar.setHorizontalTextPosition(JButton.LEFT);
+		entrar.setFocusPainted(false);
+
+		entrar.setBounds(220,210,156,50);
 		frame.add(entrar);
 
 		//Botão de Cadastro
