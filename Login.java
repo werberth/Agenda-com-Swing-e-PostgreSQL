@@ -7,6 +7,7 @@ import javax.swing.*;
 public class Login {
 	private JFrame frame;
 	private static Login tela;
+	private static MenuPrincipal telaInicial;
 	private JMenuBar menuBar;
 	private JMenu opcoes;
 	private JMenuItem sobre;
@@ -149,6 +150,8 @@ public class Login {
 							String nome = resultSet.getString("nome");
 							file.escreverArquivo(nome);
 							JOptionPane.showMessageDialog(null, "Usuaro logado com sucesso \n Nome: " + nome);
+							telaInicial = new MenuPrincipal();
+							frame.dispose();
 						} else {
 							JOptionPane.showMessageDialog(null, "Nenhum usuário com esse username e senha foi encontrado!");
 						}
