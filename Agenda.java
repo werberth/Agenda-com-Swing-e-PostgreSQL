@@ -178,6 +178,7 @@ public class Agenda {
 				String day = dia.getSelectedItem().toString();
 				String month = mes.getSelectedItem().toString();
 				String year = ano.getSelectedItem().toString();
+				String date = day + "/" + month + "/" + year;
 
 					try {
 						if(!bd.getConnection()){
@@ -189,37 +190,50 @@ public class Agenda {
 
 						if((diaCheckbox.isSelected() || mesCheckbox.isSelected() || anoCheckbox.isSelected()) && checkDateIsValid(day, month, year)){
 							if(diaCheckbox.isSelected() && !mesCheckbox.isSelected() && !anoCheckbox.isSelected()){
-								String url = "SELECT * FROM atividade WHERE WHERE EXTRACT(DAY from data)=? AND EXTRACT(YEAR from data) > EXTRACT(YEAR, CURRENT_DATE) AND usuario=?";
+								System.out.println('1');
+								String url = "SELECT * FROM atividade WHERE EXTRACT(DAY from data)=? AND (EXTRACT(YEAR from data) > EXTRACT(YEAR from CURRENT_DATE)) AND usuario=?";
 								statement = bd.connection.prepareStatement(url);
+								statement.setDouble(1, Double.parseDouble(day));
+								statement.setString(2, usuario);
 							} else if(!diaCheckbox.isSelected() && mesCheckbox.isSelected() && !anoCheckbox.isSelected()){
-								String url = "SELECT * FROM atividade WHERE EXTRACT(MONTH from data)=? AND EXTRACT(YEAR from data) > EXTRACT(YEAR, CURRENT_DATE) AND usuario=?";
+								System.out.println('2');
+								String url = "SELECT * FROM atividade WHERE EXTRACT(MONTH from data)=? AND (EXTRACT(YEAR from data) > EXTRACT(YEAR from CURRENT_DATE)) AND usuario=?";
 								statement = bd.connection.prepareStatement(url);
-								statement.setString(1, month);
+								statement.setDouble(1,  Double.parseDouble(month));
+								statement.setString(2, usuario);
 							} else if(!diaCheckbox.isSelected() && !mesCheckbox.isSelected() && anoCheckbox.isSelected()){
+								System.out.println('3');
 								String url = "SELECT * FROM atividade WHERE EXTRACT(YEAR from data)=? AND usuario=?";
 								statement = bd.connection.prepareStatement(url);
-								statement.setString(1, year);
+								statement.setDouble(1,  Double.parseDouble(year));
+								statement.setString(2, usuario);
 							} else if(diaCheckbox.isSelected() && mesCheckbox.isSelected() && !anoCheckbox.isSelected()){
-								String url = "SELECT * FROM atividade WHERE EXTRACT(DAY from data)=? AND EXTRACT(MONTH from data)=? EXTRACT(YEAR from data) > EXTRACT(YEAR, CURRENT_DATE) AND usuario=?";
+								System.out.println('4');
+								String url = "SELECT * FROM atividade WHERE EXTRACT(DAY from data)=? AND EXTRACT(MONTH from data)=? AND (EXTRACT(YEAR from data) > EXTRACT(YEAR from CURRENT_DATE)) AND usuario=?";
 								statement = bd.connection.prepareStatement(url);
-								statement.setString(1, day);
-								statement.setString(2, month);
+								statement.setDouble(1, Double.parseDouble(day));
+								statement.setDouble(2,  Double.parseDouble(month));
+								statement.setString(3, usuario);
 							} else if(diaCheckbox.isSelected() && !mesCheckbox.isSelected() && anoCheckbox.isSelected()){
+								System.out.println('5');
 								String url = "SELECT * FROM atividade WHERE EXTRACT(DAY from data)=? AND EXTRACT(YEAR from data)=? AND usuario=?";
 								statement = bd.connection.prepareStatement(url);
-								statement.setString(1, day);
-								statement.setString(2, year);
+								statement.setDouble(1, Double.parseDouble(day));
+								statement.setDouble(2,  Double.parseDouble(year));
+								statement.setString(3, usuario);
 							} else if(!diaCheckbox.isSelected() && mesCheckbox.isSelected() && anoCheckbox.isSelected()){
-								String url = "SELECT * FROM atividade WHERE EXTRACT(MONTH from data)=? AND EXTRACT(YEAR from data)=? AND usuario=?";
+								System.out.println('6');
+								String url = "SELECT * FROM atividade WHERE EXTRACT(MONTH from data) = ? AND EXTRACT(YEAR from data) = ? AND usuario=?";
 								statement = bd.connection.prepareStatement(url);
-								statement.setString(1, month);
-								statement.setString(2, year);
+								statement.setDouble(1, Double.parseDouble(month));
+								statement.setDouble(2, Double.parseDouble(year));
+								statement.setString(3, usuario);
 							} else {
-								String url = "SELECT * FROM atividade WHERE EXTRACT(DAY from data)=? AND EXTRACT(MONTH from data)=? AND EXTRACT(YEAR from data)=?";
+								String url = "SELECT * FROM atividade WHERE data = TO_DATE(?, 'DD/MM/YYYY') AND usuario=?";
 								statement = bd.connection.prepareStatement(url);
-								statement.setString(1,day);
-								statement.setString(2, month);
-								statement.setString(3, year);
+								System.out.println(date);
+								statement.setString(1, date);
+								statement.setString(2, usuario);
 							}
 						} else {
 							String url = "SELECT * FROM atividade WHERE data >= CURRENT_DATE AND usuario=?";
@@ -227,6 +241,7 @@ public class Agenda {
 							statement.setString(1, usuario);
 						} 
 
+						
 						resultSet = statement.executeQuery();
 
 						DefaultTableModel tableModel = new DefaultTableModel(new String[]{"Atividade", "Data", "Anotação"}, 0){};
