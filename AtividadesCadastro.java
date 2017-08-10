@@ -12,6 +12,7 @@ public class AtividadesCadastro {
 	private JMenuItem sobre;
 	private JMenuItem exit;
 	private BD bd;
+	private Arquivo file;
 
 	private JButton salvar;
 	private JLabel titulolabel, anotacaolabel, dialabel, meslabel, anolabel, atividadelabel;
@@ -40,6 +41,7 @@ public class AtividadesCadastro {
 		frame.setBounds(280,60,740,650);
 		frame.setVisible(true);
 		bd = new BD();
+		file = new Arquivo();
 	}
 
 	private void initComponents(){
@@ -174,11 +176,12 @@ public class AtividadesCadastro {
 							System.exit(0);
 						}
 
-						String url = "INSERT INTO atividade (titulo, data, anotacao) VALUES (?, TO_DATE(?, 'DD/MM/YYYY'),?);";
+						String url = "INSERT INTO atividade (titulo, data, anotacao, usuario) VALUES (?, TO_DATE(?, 'DD/MM/YYYY'),?,?);";
 						statement = bd.connection.prepareStatement(url);
 						statement.setString(1, titulo.getText());
 						statement.setString(2, date);
 						statement.setString(3, anotacao.getText());
+						statement.setString(4, file.lerArquivo());
 						statement.execute();
 						statement.close();
 						bd.close();
@@ -206,7 +209,6 @@ public class AtividadesCadastro {
 			JOptionPane.showMessageDialog(null, "Algum campo de data não preenchido!\n Verifique e tente novamente!");
 			return false;
 		} else if(Arrays.asList(february_invalid_days).contains(day) && (month == "04")){
-			System.out.println(Integer.parseInt(year) + " ------ ");
 			if(!checkIsLeapYear(Integer.parseInt(year))){
 				JOptionPane.showMessageDialog(null, "O mês de fevereiro não contém o dia " + day);
 				return false;
