@@ -32,7 +32,6 @@ public class AtividadesCadastro {
 	private void montaTela(){
 		frame = new JFrame("Agendar Tarefa");
 		frame.setLayout(null);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(new Color(0, 174, 176));
 		initComponents();
 		defineEvents();
@@ -188,6 +187,7 @@ public class AtividadesCadastro {
 						JOptionPane.showMessageDialog(null, "Atividade registrada na Agenda com sucesso!\n" + 
 															"Atividade: " + titulo.getText() + "\nData: " + date +
 															"\nAnotação: " + anotacao.getText());
+						frame.dispose();
 						//frame.dispose();
 					} catch(Exception erro) {
 						JOptionPane.showMessageDialog(null, "Algo de errado aconteceu:\n " + erro.toString());
