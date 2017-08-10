@@ -3,9 +3,6 @@ import java.sql.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-// imports para manipulação de arquivos
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
 
 public class Login {
 	private JFrame frame;
@@ -15,6 +12,7 @@ public class Login {
 	private JMenuItem sobre;
 	private JMenuItem exit;
 	private BD bd;
+	private Arquivo file;
 
 	private JTextField username;
 	private JPasswordField senha;
@@ -41,6 +39,7 @@ public class Login {
 		frame.setBounds(0,0,400,400);
 		frame.setVisible(true);
 		bd = new BD();
+		file = new Arquivo();
 	}
 
 	private void initComponents(){
@@ -148,12 +147,11 @@ public class Login {
 						resultSet = statement.executeQuery();
 						if(resultSet.next()){
 							String nome = resultSet.getString("nome");
-							userArquivo(nome);
+							file.escreverArquivo(nome);
 							JOptionPane.showMessageDialog(null, "Usuaro logado com sucesso \n Nome: " + nome);
 						} else {
 							JOptionPane.showMessageDialog(null, "Nenhum usuário com esse username e senha foi encontrado!");
 						}
-
 						resultSet.close();
 						statement.close();
 						bd.close();
@@ -170,18 +168,6 @@ public class Login {
 				Cadastro cadastroFrame = new Cadastro();
 			}
 		});
-	}
-
-	private void userArquivo(String nome){
-		try {
-			FileOutputStream arquivo = new FileOutputStream("arquivo.txt");
-			PrintWriter pr = new PrintWriter(arquivo);
-			pr.println(nome);
-			pr.close();
-			arquivo.close();
-		} catch(Exception e){
-			System.out.println("Erro ao escrever");
-		}
 	}
 
 	public static void main(String[] args){
