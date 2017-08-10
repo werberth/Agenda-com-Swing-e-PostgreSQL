@@ -109,13 +109,14 @@ public class Login {
 		entrar.setBounds(220,210,156,50);
 		frame.add(entrar);
 
-		//Botão de Cadastro
-		f = new Font("SansSerif",1, 15);
 		cadastrar = new JButton("Cadastre-se");
 		cadastrar.setBackground(new Color(0, 130, 156));
 		cadastrar.setForeground(new Color(255, 255, 255));
-		cadastrar.setFont(f);
-		cadastrar.setBounds(65,210,150,30);
+		cadastrar.setFont(new Font("SansSerif",1, 16));
+		cadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/users.png")));
+		cadastrar.setHorizontalTextPosition(JButton.LEFT);
+		cadastrar.setFocusPainted(false);
+		cadastrar.setBounds(20,210,200,50);
 		frame.add(cadastrar);
 	}
 
