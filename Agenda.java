@@ -203,7 +203,7 @@ public class Agenda {
 								statement.setDouble(1,  Double.parseDouble(month));
 								statement.setString(2, usuario);
 							} else if(!diaCheckbox.isSelected() && !mesCheckbox.isSelected() && anoCheckbox.isSelected()){
-								String url = "SELECT * FROM atividade WHERE EXTRACT(YEAR from data)=? AND usuario=?";
+								String url = "SELECT * FROM atividade WHERE EXTRACT(YEAR from data)=? AND usuario=? ORDER BY data";
 								statement = bd.connection.prepareStatement(url);
 								statement.setDouble(1,  Double.parseDouble(year));
 								statement.setString(2, usuario);
