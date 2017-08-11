@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 public class AtividadesCadastro {
 	private JFrame frame;
-	private static AtividadesCadastro tela;
 	private MenuBarClass bar;
 	private JMenuBar menuBar;
 	private BD bd;
@@ -201,8 +200,4 @@ public class AtividadesCadastro {
 			return false;
 		}
  	}
-
-	public static void main(String[] args){
-		tela = new AtividadesCadastro();
-	}
 }

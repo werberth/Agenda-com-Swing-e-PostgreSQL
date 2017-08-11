@@ -5,7 +5,6 @@ import javax.swing.*;
 
 public class Cadastro {
 	private JFrame frame;
-	private static Cadastro tela;
 	private MenuBarClass bar;
 	private JMenuBar menuBar;
 	private BD bd;
@@ -144,9 +143,5 @@ public class Cadastro {
 				}
 			}
 		});
-	}
-
-	public static void main(String[] args){
-		tela = new Cadastro();
 	}
 }

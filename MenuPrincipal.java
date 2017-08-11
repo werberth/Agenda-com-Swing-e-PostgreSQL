@@ -4,7 +4,6 @@ import javax.swing.*;
 
 public class MenuPrincipal {
 	private JFrame frame;
-	private static MenuPrincipal janela;
 	private static AtividadesCadastro telaCadastro;
 	private static Agenda telaAgenda;
 	private MenuBarClass bar;
@@ -71,9 +70,5 @@ public class MenuPrincipal {
 				telaCadastro = new AtividadesCadastro(); 
 			}
 		});
-	}
-
-	public static void main(String[] args){
-		janela = new MenuPrincipal();
 	}
 }

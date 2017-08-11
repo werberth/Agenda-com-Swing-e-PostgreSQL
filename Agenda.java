@@ -7,7 +7,6 @@ import java.util.Arrays;
 
 public class Agenda {
 	private JFrame frame;
-	private static Agenda tela;
 	private MenuBarClass bar;
 	private JMenuBar menuBar;
 	private BD bd;
@@ -311,7 +310,4 @@ public class Agenda {
 		}
  	}
 
-	public static void main(String[] args){
-		tela = new Agenda();
-	}
 }
