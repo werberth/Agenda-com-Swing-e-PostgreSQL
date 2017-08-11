@@ -32,7 +32,7 @@ public class Cadastro {
 		defineEvents();
 
 		frame.pack();
-		frame.setBounds(0,0,600,600);
+		frame.setBounds(300,100,600,600);
 		frame.setVisible(true);
 		bd = new BD();
 	}
@@ -60,8 +60,8 @@ public class Cadastro {
 		//Titulo
 		titulo = new JLabel("Cadastro");
 		titulo.setForeground(new Color(255, 255, 255));
-		titulo.setFont(new Font("SansSerif", Font.BOLD, 25));
-		titulo.setBounds(240, 40, 150, 30);
+		titulo.setFont(new Font("SansSerif", Font.BOLD, 40));
+		titulo.setBounds(200, 40, 250, 50);
 		frame.add(titulo);
 
 		// Nome de Usuário
@@ -70,10 +70,10 @@ public class Cadastro {
 		username = new JTextField();
 		username.setForeground(new Color(255, 255, 255));
 		username.setBackground(new Color(0, 130, 156));
-		username.setFont(new Font("SansSerif", Font.BOLD, 15));
-		userlabel.setFont(new Font("SansSerif", Font.BOLD, 15));
-		userlabel.setBounds(150,110,150,30);
-		username.setBounds(150,140,300,30);
+		username.setFont(new Font("SansSerif", Font.BOLD, 17));
+		userlabel.setFont(new Font("SansSerif", Font.BOLD, 17));
+		userlabel.setBounds(160,130,180,30);
+		username.setBounds(160,160,300,30);
 		frame.add(username);
 		frame.add(userlabel);
 
@@ -83,32 +83,37 @@ public class Cadastro {
 		senha = new JPasswordField();
 		senha.setBackground(new Color(0, 130, 156));
 		senha.setForeground(new Color(255, 255, 255));
-		senha.setFont(new Font("SansSerif", Font.BOLD, 15));
-		senhalabel.setFont(new Font("SansSerif", Font.BOLD, 15));
-		senhalabel.setBounds(150,180,150,30);
-		senha.setBounds(150,210,300,30);
+		senha.setFont(new Font("SansSerif", Font.BOLD, 17));
+		senhalabel.setFont(new Font("SansSerif", Font.BOLD, 17));
+		senhalabel.setBounds(160,200,150,30);
+		senha.setBounds(160,230,300,30);
 		frame.add(senha);
 		frame.add(senhalabel);
 
 		//confirmar senha
 		confirmarlabel = new JLabel("Confirmar Senha");
 		confirmarlabel.setForeground(new Color(255, 255, 255));
-		confirmarlabel.setFont(new Font("SansSerif", Font.BOLD, 15));
+		confirmarlabel.setFont(new Font("SansSerif", Font.BOLD, 17));
 		confirmar = new JPasswordField();
 		confirmar.setBackground(new Color(0, 130, 156));
 		confirmar.setForeground(new Color(255, 255, 255));
 		confirmar.setFont(new Font("SansSerif", Font.BOLD, 15));
-		confirmarlabel.setBounds(150,250,150,30);
-		confirmar.setBounds(150,280,300,30);
+		confirmarlabel.setBounds(160,270,190,30);
+		confirmar.setBounds(160,300,300,30);
 		frame.add(confirmar);
 		frame.add(confirmarlabel);
 
 
 
 		//Butão de Logar
-		salvar = new JButton("Salvar");
-		salvar.setFont(new Font("SansSerif", Font.BOLD, 15));
-		salvar.setBounds(250,330,100,30);
+		salvar = new JButton("Salvar ");
+		salvar.setBackground(new Color(0, 130, 156));
+		salvar.setForeground(new Color(255, 255, 255));
+		salvar.setFont(new Font("SansSerif",1, 18));
+		salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("icons/save.png")));
+		salvar.setHorizontalTextPosition(JButton.LEFT);
+		salvar.setMargin(new Insets(0, 0, 0, 0));
+		salvar.setBounds(235,340,145,50);
 		frame.add(salvar);
 	}
 
