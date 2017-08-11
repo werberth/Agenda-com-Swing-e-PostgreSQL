@@ -8,10 +8,8 @@ import java.util.Arrays;
 public class Agenda {
 	private JFrame frame;
 	private static Agenda tela;
+	private MenuBarClass bar;
 	private JMenuBar menuBar;
-	private JMenu opcoes;
-	private JMenuItem sobre;
-	private JMenuItem exit;
 	private BD bd;
 	private Arquivo file;
 
@@ -49,21 +47,8 @@ public class Agenda {
 
 	private void initComponents(){
 		// Adicionando componentes da Barra de menu
-		
-		menuBar = new JMenuBar();
-		menuBar.setBackground(new Color(0, 130, 156));
-		opcoes = new JMenu("Opções");
-		opcoes.setForeground(new Color(255, 255, 255));
-		opcoes.setBackground(new Color(0, 130, 156));
-		sobre = new JMenuItem("Sobre");
-		sobre.setForeground(new Color(255, 255, 255));
-		sobre.setBackground(new Color(0, 130, 156));
-		exit = new JMenuItem("Exit");
-		exit.setForeground(new Color(255, 255, 255));
-		exit.setBackground(new Color(0, 130, 156));
-		opcoes.add(sobre);
-		opcoes.add(exit);
-		menuBar.add(opcoes);
+		bar = new MenuBarClass();
+		menuBar = bar.newMenuBar();
 		frame.setJMenuBar(menuBar);;
 
 		//Titulo
@@ -163,19 +148,7 @@ public class Agenda {
 	}
 
 
-	private void defineEvents(){
-		sobre.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				JOptionPane.showMessageDialog(null, "Agenda, Todos os Direitos Reservados, 2017.");
-			}
-		});
-
-		exit.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				System.exit(0);
-			}
-		});
-		
+	private void defineEvents(){		
 		filtrarButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				String day = dia.getSelectedItem().toString();

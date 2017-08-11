@@ -7,10 +7,8 @@ public class MenuPrincipal {
 	private static MenuPrincipal janela;
 	private static AtividadesCadastro telaCadastro;
 	private static Agenda telaAgenda;
+	private MenuBarClass bar;
 	private JMenuBar menuBar;
-	private JMenu opcoes;
-	private JMenuItem sobre;
-	private JMenuItem exit;
 
 	private JButton pesquisarAtividadeButton, cadastrarAtividadeButton;
 
@@ -35,23 +33,9 @@ public class MenuPrincipal {
 
 	private void initComponents(){
 		// Adicionando componentes da Barra de menu
-
-		menuBar = new JMenuBar();
-		menuBar.setBackground(new Color(0, 130, 156));
-		opcoes = new JMenu("Opções");
-		opcoes.setForeground(new Color(255, 255, 255));
-		opcoes.setBackground(new Color(0, 130, 156));
-		sobre = new JMenuItem("Sobre");
-		sobre.setForeground(new Color(255, 255, 255));
-		sobre.setBackground(new Color(0, 130, 156));
-		exit = new JMenuItem("Exit");
-		exit.setForeground(new Color(255, 255, 255));
-		exit.setBackground(new Color(0, 130, 156));
-		opcoes.add(sobre);
-		opcoes.add(exit);
-		menuBar.add(opcoes);
+		bar = new MenuBarClass();
+		menuBar = bar.newMenuBar();
 		frame.setJMenuBar(menuBar);;
-
 		//Jbuttons do Menu
 
 		pesquisarAtividadeButton = new JButton(" Pesquisar Atividades");

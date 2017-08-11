@@ -7,10 +7,8 @@ import java.util.Arrays;
 public class AtividadesCadastro {
 	private JFrame frame;
 	private static AtividadesCadastro tela;
+	private MenuBarClass bar;
 	private JMenuBar menuBar;
-	private JMenu opcoes;
-	private JMenuItem sobre;
-	private JMenuItem exit;
 	private BD bd;
 	private Arquivo file;
 
@@ -44,21 +42,9 @@ public class AtividadesCadastro {
 	}
 
 	private void initComponents(){
-		//Declarações da barra de menu
-		menuBar = new JMenuBar();
-		menuBar.setBackground(new Color(0, 130, 156));
-		opcoes = new JMenu("Opções");
-		opcoes.setForeground(new Color(255, 255, 255));
-		opcoes.setBackground(new Color(0, 130, 156));
-		sobre = new JMenuItem("Sobre");
-		sobre.setForeground(new Color(255, 255, 255));
-		sobre.setBackground(new Color(0, 130, 156));
-		exit = new JMenuItem("Exit");
-		exit.setForeground(new Color(255, 255, 255));
-		exit.setBackground(new Color(0, 130, 156));
-		opcoes.add(sobre);
-		opcoes.add(exit);
-		menuBar.add(opcoes);
+		// Adicionando componentes da Barra de menu
+		bar = new MenuBarClass();
+		menuBar = bar.newMenuBar();
 		frame.setJMenuBar(menuBar);;
 
 		//Titulo da tela
@@ -152,18 +138,6 @@ public class AtividadesCadastro {
 
 
 	private void defineEvents(){
-		sobre.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				JOptionPane.showMessageDialog(null, "Agenda, Todos os Direitos Reservados, 2017.");
-			}
-		});
-
-		exit.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				System.exit(0);
-			}
-		});
-
 		salvar.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				String day = dia.getSelectedItem().toString();
