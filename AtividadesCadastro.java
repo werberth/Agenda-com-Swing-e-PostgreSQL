@@ -137,12 +137,15 @@ public class AtividadesCadastro {
 		frame.add(anotacaoScroll);
 
 		//Botão de Salvar 
-		salvar = new JButton("Salvar");
-		salvar.setFont(new Font("SansSerif", Font.BOLD, 15));
+		salvar = new JButton("Salvar ");
 		salvar.setBackground(new Color(0, 130, 156));
 		salvar.setForeground(new Color(255, 255, 255));
-		salvar.setFont(new Font("SansSerif",1, 17));
-		salvar.setBounds(550,530,100,40);
+		salvar.setFont(new Font("SansSerif",1, 18));
+		salvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("icons/save.png")));
+		salvar.setHorizontalTextPosition(JButton.LEFT);
+		salvar.setMargin(new Insets(0, 0, 0, 0));
+		salvar.setFocusPainted(false);
+		salvar.setBounds(500,530,150,50);
 		frame.add(salvar);
 
 	}
@@ -188,7 +191,6 @@ public class AtividadesCadastro {
 															"Atividade: " + titulo.getText() + "\nData: " + date +
 															"\nAnotação: " + anotacao.getText());
 						frame.dispose();
-						//frame.dispose();
 					} catch(Exception erro) {
 						JOptionPane.showMessageDialog(null, "Algo de errado aconteceu:\n " + erro.toString());
 						System.out.println(erro.toString());
