@@ -150,10 +150,10 @@ public class Agenda {
 	private void defineEvents(){		
 		filtrarButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				String day = dia.getSelectedItem().toString();
-				String month = mes.getSelectedItem().toString();
-				String year = ano.getSelectedItem().toString();
-				String date = day + "/" + month + "/" + year;
+
+				String day = checkValueCheckBox(diaCheckbox, dia);
+				String month =  checkValueCheckBox(mesCheckbox, mes);
+				String year =  checkValueCheckBox(anoCheckbox, ano);
 
 					try {
 						if(!bd.getConnection()){
@@ -199,6 +199,7 @@ public class Agenda {
 								statement.setString(3, usuario);
 							} else {
 								String url = "SELECT * FROM atividade WHERE data = TO_DATE(?, 'DD/MM/YYYY') AND usuario=? ORDER BY data";
+								String date = day + "/" + month + "/" + year;
 								statement = bd.connection.prepareStatement(url);
 								System.out.println(date);
 								statement.setString(1, date);
@@ -256,16 +257,23 @@ public class Agenda {
 	private boolean checkDateIsValid(String day, String month, String year){
 		String[] meses_invalidos = {"04", "06", "09", "11"};
 		String[] february_invalid_days = {"29", "30", "31"};
-		if((day == "31") && (Arrays.asList(meses_invalidos).contains(month))){
-			JOptionPane.showMessageDialog(null, "Não existe dia 31 no mês " + month);
-			return false;
-		} else if(((day == "Selecione") && diaCheckbox.isSelected()) || ((month == "Selecione") && mesCheckbox.isSelected()) || ((year == "Selecione") && anoCheckbox.isSelected())){
-			JOptionPane.showMessageDialog(null, "Algum campo de data não preenchido!\n Verifique e tente novamente!");
-			return false;
-		} else if(Arrays.asList(february_invalid_days).contains(day) && (month == "04")){
-			if(!checkIsLeapYear(Integer.parseInt(year))){
-				JOptionPane.showMessageDialog(null, "O mês de fevereiro não contém o dia " + day);
+		if(month != "Selecione") {
+			if((day == "31") && (Arrays.asList(meses_invalidos).contains(month))){
+				JOptionPane.showMessageDialog(null, "Não existe dia 31 no mês " + month);
 				return false;
+			} else if(((day == "Selecione") && diaCheckbox.isSelected()) || ((month == "Selecione") && mesCheckbox.isSelected()) || ((year == "Selecione") && anoCheckbox.isSelected())){
+				JOptionPane.showMessageDialog(null, "Algum campo de data não preenchido!\n Verifique e tente novamente!");
+				return false;
+			} else if(Arrays.asList(february_invalid_days).contains(day) && (month == "02")){
+				if((year != "Selecione") && (!checkIsLeapYear(Integer.parseInt(year)))){
+					if((day == "29")){
+						JOptionPane.showMessageDialog(null, "O mês de fevereiro do ano" + year + " não contém o dia " + day);
+						return false;
+					} 
+				} else if((day == "30") || (day == "31")){
+					JOptionPane.showMessageDialog(null, "O mês de fevereiro não contém o dia " + day);
+					return false;
+				}
 			}
 		}
 		return true;
@@ -299,6 +307,17 @@ public class Agenda {
         });
 
 		return table;
+ 	}
+
+ 	private String checkValueCheckBox(JCheckBox checkbox, JComboBox combobox){
+ 		String value;
+ 		if(checkbox.isSelected()){
+ 			value = combobox.getSelectedItem().toString();
+ 		} else {
+ 			value = "Selecione";
+ 		}
+
+ 		return value;
  	}
 
  	private boolean checkIsLeapYear(Integer year){

@@ -183,11 +183,15 @@ public class AtividadesCadastro {
 		} else if((day == "Selecione") || (month == "Selecione") || (year == "Selecione")){
 			JOptionPane.showMessageDialog(null, "Algum campo de data não preenchido!\n Verifique e tente novamente!");
 			return false;
-		} else if(Arrays.asList(february_invalid_days).contains(day) && (month == "04")){
+		} else if(Arrays.asList(february_invalid_days).contains(day) && (month == "02")){
 			if(!checkIsLeapYear(Integer.parseInt(year))){
 				JOptionPane.showMessageDialog(null, "O mês de fevereiro não contém o dia " + day);
 				return false;
+			} else if(checkIsLeapYear(Integer.parseInt(year)) && ((day == "30") || (day == "31"))){
+				JOptionPane.showMessageDialog(null, "O mês de fevereiro do ano " + year + " não contém o dia " + day);
+				return false;
 			}
+
 		}
 		return true;
  	}
